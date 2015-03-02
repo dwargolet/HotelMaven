@@ -107,7 +107,7 @@ public class HotelDAO implements HotelDAOInterface{
     
     
     @Override
-    public int deleteHotelRecord(int pk, String colNames, String values)throws Exception{
+    public int deleteHotelRecord(int pk)throws Exception{
         db.openConnection();
         int updates;
         try{

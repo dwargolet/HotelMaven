@@ -45,8 +45,8 @@ public class HotelService {
     }
     
     
-    public void deleteHotelRecord(int pk, String colNames, String values)throws Exception{
-        dao.deleteHotelRecord(pk, colNames, values);
+    public void deleteHotelRecord(int pk)throws Exception{
+        dao.deleteHotelRecord(pk);
     }
     
     public List<Hotel> getAllHotels()throws Exception{
@@ -84,10 +84,11 @@ public class HotelService {
     
 //    public static void main(String[] args) {
 //        HotelDAOInterface d = new HotelDAO();
-//        HotelService h = new HotelService();
+//        DB_AccessorStrategy ds = new DB_Mysql();
+//        HotelService h = new HotelService(d);
 //        
 //        h.insertHotelRecord("Wutang", "ODB St", "Shaolin", "NY", "12432", "");
 //        
-//        System.out.println(h.findAllHotels());
+//        System.out.println(h.getAllHotels());
 //    }
 }

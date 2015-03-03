@@ -19,7 +19,8 @@ $(document).ready(function(){
     $('#deleteBtn').click(function () {        
         var hotelId = $("input:radio[name=hotelRadio]:checked").val();
         createRecord.hotelId.value = hotelId;
-        window.confirm("Are you sure you want to delete this Hotel?");
+//        window.confirm("Are you sure you want to delete this Hotel?");
+        
         $('#createRecord').attr('action',  "HotelController?action=delete");
          
         $('#createRecord').submit();
@@ -27,7 +28,7 @@ $(document).ready(function(){
     });
     
    
-    return window.confirm("Are you sure you want to delete this Hotel?");
+
     
     
     
@@ -65,7 +66,7 @@ $(document).ready(function(){
     
 
     $('#createBtn').click(function () {  
-        alert($('#hotelName').val());
+        
         $('#editBtn').prop('disabled', false);
         $('#deleteBtn').prop('disabled', false);
         
@@ -73,4 +74,23 @@ $(document).ready(function(){
         return;
     });
 
+    $('#searchWizard').change(function(){
+         var wizardVal = $('#wizard').val();
+         switch(wizardVal)
+         {
+             case '0':
+                 $('.stateInput').hide();
+                 $('.cityInput').hide();
+                 break;
+             case '1':
+                 $('.stateInput').show();
+                 $('.cityInput').hide();
+                 break;
+             case '2':
+                 $('.stateInput').hide();
+                 $('.cityInput').show();
+                 break;
+         }
+         
+    });
 });

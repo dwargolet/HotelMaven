@@ -20,10 +20,19 @@
     <body>
         
         <nav id="head" class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-inner navbar-content-center">
+            <div id="nav" class="navbar-inner navbar-content-center">
                 <h3>Hotel Lab - <i>Maven Version</i></h3>
+                <ul class="nav nav-tabs custom">
+                    <li role="presentation"><a href="<%= request.getContextPath() %>/index.jsp">Main</a></li>
+                    <li role="presentation"><a href="<%= request.getContextPath() %>/Views/search.jsp">Search Records</a></li>
+                    <li role="presentation" class="active"><a href="<%= request.getContextPath() %>/Views/redirect.jsp">Records</a></li>
+                </ul>    
             </div>
         </nav>
+        
+  
+        
+        
         
         
          <div class="container">
@@ -40,8 +49,8 @@
                                 <tr>                                    
                                     <td align="center">${hotel.hotelId}-</td>
                                     <td align="center"><input type="hidden" id="listedHotelName" value="${hotel.hotelName}"/>${hotel.hotelName}</td><br>
-                                    <td align="center"><input type="hidden" id="listedHotelAddress" value="${hotel.streetAddress}"/>${hotel.streetAddress},</td>
-                                    <td align="center"><input type="hidden" id="listedHotelCity" value="${hotel.city}"/>${hotel.city},</td>
+                                    <td align="center"><input type="hidden" id="listedHotelAddress" value="${hotel.streetAddress}"/>${hotel.streetAddress}</td>
+                                    <td align="center"><input type="hidden" id="listedHotelCity" value="${hotel.city}"/>${hotel.city}</td>
                                     <td align="center"><input type="hidden" id="listedHotelState" value="${hotel.state}"/>${hotel.state}</td>
                                     <td align="center"><input type="hidden" id="listedHotelZip" value="${hotel.zip}"/>${hotel.zip}</td>
                                     <td align="center"><input type="hidden" id="listedHotelNote" value="${hotel.notes}"/>${hotel.notes}</td>
@@ -55,7 +64,7 @@
 <!--         </div>-->
         
         <div class="form-group">
-            <form class="confirm" id="createRecord" name="createRecord"  method="POST" action="<%= request.getContextPath() %>/HotelController?action=create">
+            <form id="createRecord" name="createRecord"  method="POST" action="<%= request.getContextPath() %>/HotelController?action=create">
                 <a name="createForm"></a>
                 <div class="form-control">
                     <input type="text" name="hotelId" id="hotelId" placeholder="Hotel ID"/>
@@ -84,18 +93,19 @@
         </div>
          </div>  
                 
-                
+                Session Count: ${activeSessionCount}
     <nav id="foot" class="navbar navbar-default navbar-fixed-bottom">
             <div class="navbar-inner navbar-content-center">
                 <button class="btn btn-danger btn-md" type="submit" id="deleteBtn"><i>Delete Record</i></button>
                 <button class="btn btn-success btn-md" type="submit" id="editBtn"><i>Edit Record</i></button>               
                 <a class="btn btn-primary btn-md" href="#createForm" role="button" id="gotoBtn">Create Record</a>
-                Session Count: ${activeSessionCount}
+                
             </div>            
     </nav>            
                 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="<%= request.getContextPath() %>/javascript/js.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>      
     </body>
 </html>

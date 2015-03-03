@@ -4,7 +4,7 @@ package listener;
  *
  * @author Daniel
  */
-import java.util.Date;
+
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 

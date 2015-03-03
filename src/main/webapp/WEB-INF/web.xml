@@ -4,6 +4,10 @@
         <servlet-name>HotelController</servlet-name>
         <servlet-class>hotel.controller.HotelController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>hotel.controller.SearchController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HotelController</servlet-name>
         <url-pattern>/HotelController</url-pattern>
@@ -28,10 +32,13 @@
         <param-name>dbStrategy</param-name>
         <param-value>hotel.model.DB_Mysql</param-value>
     </context-param>
-    
-    
-    
-    
+    <!--    <listener>
+        <listener-class>listener.HotelSessionListener</listener-class>
+    </listener>-->
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/SearchController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

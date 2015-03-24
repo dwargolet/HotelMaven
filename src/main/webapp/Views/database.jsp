@@ -104,6 +104,7 @@
     </nav>            
                 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="resources/js/jquery-sortable-min.js "></script>
 <script src="<%= request.getContextPath() %>/javascript/js.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>      

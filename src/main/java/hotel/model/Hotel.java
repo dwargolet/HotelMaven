@@ -1,12 +1,13 @@
 package hotel.model;
 
 import java.util.Objects;
-
+import java.util.List;
 /**
  *
  * @author Daniel
  */
 public class Hotel {
+    
     private int hotelId;
     private String hotelName;
     private String streetAddress;
@@ -15,6 +16,7 @@ public class Hotel {
     private String zip;
     private String notes;
 
+    
     public Hotel() {
     }
 

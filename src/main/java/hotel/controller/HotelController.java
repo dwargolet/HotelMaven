@@ -1,5 +1,6 @@
 package hotel.controller;
 
+
 import hotel.model.Hotel;
 import hotel.model.DB_AccessorStrategy;
 import hotel.model.DB_Mysql;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +34,7 @@ public class HotelController extends HttpServlet {
    private static final String ACTION_EDIT = "edit";
    private static final String ACTION_CREATE = "create";
    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,132 +47,47 @@ public class HotelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
+        
         HttpSession session = request.getSession();
         HotelSessionListener sl = new HotelSessionListener();
         
+
         
-//        String driver = request.getServletContext().getInitParameter("driver");
-//        String url = request.getServletContext().getInitParameter("url");
-//        String password = request.getServletContext().getInitParameter("password");        
-//        String username = request.getServletContext().getInitParameter("userName");
-//        String dbStrat = request.getServletContext().getInitParameter("dbStrategy");
-//        
-//        
-//        
-//        String name;
-//        String address;
-//        String city;
-//        String state;
-//        String zip;
-//        String notes;
-//        
-//        Class cons = Class.forName(dbStrat);
-//        Constructor constructor = cons.getConstructor(new Class[]{String.class,String.class,String.class,String.class});
-//        DB_AccessorStrategy db = (DB_AccessorStrategy)constructor.newInstance(driver,url,username,password);
-//        
-//        HotelService hs = new HotelService(db);
-//        
-//        
-//        RequestDispatcher view;
-//        String action = request.getParameter("action");
-//
-//        
-//        
-//        if(request.getParameter("action") != null){
-//            if(action.equals(ACTION_CREATE))
-//            {
-//                
-////                name = request.getParameter("hotelName");
-////                address = request.getParameter("hotelAddress");
-////                city = request.getParameter("hotelCity");
-////                zip = request.getParameter("hotelZip");
-////                state = request.getParameter("hotelState");
-////                notes = request.getParameter("hotelNote");
-//                Hotel h = new Hotel();
-//                
-//                h.setHotelName(request.getParameter("hotelName"));
-//                request.setAttribute("hotelName", "test");
-//                h.setCity(request.getParameter("hotelCity"));
-//                h.setState(request.getParameter("hotelState"));
-//                h.setZip(request.getParameter("hotelZip"));
-//                h.setStreetAddress(request.getParameter("hotelAddress"));
-//         
-//                h.setNotes(request.getParameter("hotelNote"));
-//                
-//                hs.insertHotelRecord(h);
-////                List<String> colNames = new ArrayList<>();
-////                List values = new ArrayList();
-//                
-////                colNames.add("hotel_name");
-////                colNames.add("street_address");
-////                colNames.add("city");
-////                colNames.add("state");
-////                colNames.add("postal_code");
-////                colNames.add("notes");
-////
-////                values.add(name);
-////                values.add(address);
-////                values.add(city);
-////                values.add(state);
-////                values.add(zip);
-////                values.add(notes);
-////                
-////                hs.insertHotelRecord(colNames, values);
-//            }
-//        else if(action.equals(ACTION_DELETE))
-//            {
-//                String stringPk = request.getParameter("hotelId");
-//                int pk = Integer.parseInt(stringPk); 
-//                hs.deleteHotelRecord(pk);
-//            }
-//        else if(action.equals(ACTION_EDIT))
-//            {
-//                String stringPk = request.getParameter("hotelId");
-//                int pk = Integer.parseInt(stringPk);
-//
-//                name = request.getParameter("hotelName");
-//                address = request.getParameter("hotelAddress");
-//                city = request.getParameter("hotelCity");
-//                zip = request.getParameter("hotelZip");
-//                state = request.getParameter("hotelState");
-//                notes = request.getParameter("hotelNote");
-//                
-//                hs.updateHotelRecord(pk, "hotel_name", name);
-//                hs.updateHotelRecord(pk, "street_address", address);
-//                hs.updateHotelRecord(pk, "city", city);
-//                hs.updateHotelRecord(pk, "state", state);
-//                hs.updateHotelRecord(pk, "postal_code", zip);
-//                hs.updateHotelRecord(pk, "notes", notes);     
-//            }
-//            
-//        view = request.getRequestDispatcher(RESULT_PAGE);
-//        view.forward(request, response);
-//        
-//        }
-        String username = request.getServletContext().getInitParameter("username");
-        String password = request.getServletContext().getInitParameter("password");
-        String url = request.getServletContext().getInitParameter("url");
-        String driver = request.getServletContext().getInitParameter("driver");
+        ServletContext ctx = request.getServletContext();
+        String username = ctx.getInitParameter("username");
+        String password = ctx.getInitParameter("password");
+        String url = ctx.getInitParameter("url");
+        String driver = ctx.getInitParameter("driver");
         
         
+//        String className = ctx.getInitParameter("dbStrategy");
+//        Class clazz = Class.forName(className);
+//        HotelDAO dao = (HotelDAO)clazz.newInstance();
+        
+        
+        DB_AccessorStrategy db = new DB_Mysql(driver,url,username, password);
+        
+        HotelService hs = new HotelService(db);
         String name;
         String address;
         String city;
         String state;
         String zip;
         String notes;
-                     
-        
-        DB_AccessorStrategy db = new DB_Mysql();
-        HotelDAO dao = new HotelDAO(db, url, driver,username, password);
+        String stringPk = "";            
+        int pk;
+ 
+ 
+  
         RequestDispatcher view;
         
-        String action = request.getParameter("action");
+ 
 
         if(request.getParameter("action") != null){
-            if(action.equals(ACTION_CREATE))
-            {
-                
+            switch(request.getParameter("action")){
+                case ACTION_CREATE:                
                 name = request.getParameter("hotelName");
                 address = request.getParameter("hotelAddress");
                 city = request.getParameter("hotelCity");
@@ -193,42 +112,46 @@ public class HotelController extends HttpServlet {
                 values.add(zip);
                 values.add(notes);
                 
-                dao.insertHotelRecord(colNames, values);
-            }
-        else if(action.equals(ACTION_DELETE))
-            {
-                String stringPk = request.getParameter("hotelId");
-                int pk = Integer.parseInt(stringPk); 
-                dao.deleteHotelRecord(pk);
-            }
-        else if(action.equals(ACTION_EDIT))
-            {
-                String stringPk = request.getParameter("hotelId");
-                int pk = Integer.parseInt(stringPk);
+                hs.insertHotelRecord(name, address, city, state, zip, notes);
+                break;    
+                case ACTION_DELETE:
+                    stringPk = request.getParameter("hotelId");
+                    pk = Integer.parseInt(stringPk); 
+                    hs.deleteHotelRecord(pk);
+                break;    
+                case ACTION_EDIT:
 
-                name = request.getParameter("hotelName");
-                address = request.getParameter("hotelAddress");
-                city = request.getParameter("hotelCity");
-                zip = request.getParameter("hotelZip");
-                state = request.getParameter("hotelState");
-                notes = request.getParameter("hotelNote");
-                
-                dao.updateHotelRecord(pk, "hotel_name", name);
-                dao.updateHotelRecord(pk, "street_address", address);
-                dao.updateHotelRecord(pk, "city", city);
-                dao.updateHotelRecord(pk, "state", state);
-                dao.updateHotelRecord(pk, "postal_code", zip);
-                dao.updateHotelRecord(pk, "notes", notes);     
+                    stringPk = request.getParameter("hotelId");
+                    pk = Integer.parseInt(stringPk);
+
+                    name = request.getParameter("hotelName");
+                    address = request.getParameter("hotelAddress");
+                    city = request.getParameter("hotelCity");
+                    zip = request.getParameter("hotelZip");
+                    state = request.getParameter("hotelState");
+                    notes = request.getParameter("hotelNote");
+
+                    hs.updateHotelRecord(pk, "hotel_name", name);
+                    hs.updateHotelRecord(pk, "street_address", address);
+                    hs.updateHotelRecord(pk, "city", city);
+                    hs.updateHotelRecord(pk, "state", state);
+                    hs.updateHotelRecord(pk, "postal_code", zip);
+                    hs.updateHotelRecord(pk, "notes", notes);
+                break;
+                default:
+                    break;
             }
         }
-                List<Hotel> records = dao.findAllHotels();
+
+        
+        
+                List<Hotel> records = hs.findAllHotels();
                 request.setAttribute("hotelList", records);
                 
                 String sessionCount = Integer.toString(sl.getTotalSessions());
                 request.setAttribute("activeSessionCount", sessionCount);
                 
-                view = request.getRequestDispatcher(RESULT_PAGE);
-        
+                view = request.getRequestDispatcher(RESULT_PAGE);        
                 view.forward(request, response);
     }
         
